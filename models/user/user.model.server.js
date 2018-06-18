@@ -18,8 +18,8 @@ function findUserByUsername(username) {
     return userModel.findOne({username: username});
 }
 
-function findUserByCredentials(username, password) {
-    return userModel.findOne({username: username, password: password});
+function findUserByCredentials(credentials) {
+    return userModel.findOne(credentials, {username: 1});
 }
 
 function deleteUser(userId) {

@@ -1,12 +1,31 @@
 module.exports = function (app) {
     app.get('/api/user', findAllUsers);
     app.get('/api/user/:userId', findUserById);
-    app.post('/api/user', createUser);
+    app.post('/api/register', createUser);
     app.get('/api/profile', profile);
-    app.get('/api/logout', logout);
-    app.get('/api/login', login);
+    app.post('/api/logout', logout);
+    app.post('/api/login', login);
+    app.put('/api/user/:userId', updateUser);
+    app.delete('/api/user/:userId', deleteUser);
 
     var userModel = require('../models/user/user.model.server');
+
+    function updateUser(req, res) {
+        var newUser = req.body;
+        var id = req.params['userId'];
+        userModel.updateUser(id, newUser)
+            .then(function() {
+                res.send(200);
+            })
+    }
+
+    function deleteUser(req, res) {
+        var id = req.params['userId'];
+        userModel.deleteUser(id)
+            .then(function() {
+                res.send(200);
+            })
+    }
 
     function login(req, res) {
         var credentials = req.body;
